@@ -25,16 +25,14 @@ int	key_hooks(int keycode, t_mlx *mlx)
 
 int	mouse_hook(int button, int x, int y, t_mlx *mlx)
 {
+	mlx->x_center = ((x - (WIN_W / 2)) / mlx->scale + mlx->x_center);
+	mlx->y_center = ((y - (WIN_H / 2)) / mlx->scale + mlx->y_center);
 	if (button == SCROLL_UP)
 	{
-		mlx->x_center = (x / mlx->scale + mlx->x_center) - (x / (mlx->scale + 75));
-		mlx->y_center = (y / mlx->scale + mlx->y_center) - (y / (mlx->scale + 75));
 		mlx->scale += 75;
 	}
 	else if (button == SCROLL_DOWN)
 	{
-		mlx->x_center = (x / mlx->scale + mlx->x_center) - (x / (mlx->scale - 75));
-		mlx->y_center = (y / mlx->scale + mlx->y_center) - (y / (mlx->scale - 75));
 		mlx->scale -= 75;
 	}
 	redraw(mlx);
