@@ -5,6 +5,8 @@ void	init(t_mlx *mlx)
 	mlx->scale = 200;
 	mlx->x_center = 0;
 	mlx->y_center = 0;
+	mlx->colour = 0;
+	mlx->max_iter = 75;
 }
 
 void	draw(t_mlx *mlx)
@@ -43,13 +45,14 @@ int	main(int argc, char **argv)
 	t_mlx	mlx;
 	if (argc > 1)
 	{
-		check_args(&mlx, argv[1]);
+		check_args(&mlx, argv, argc);
 		mlx.mlx = mlx_init();
 		mlx.win = mlx_new_window(mlx.mlx, WIN_W, WIN_H, "fractol");
 		mlx.img.img_ptr = mlx_new_image(mlx.mlx, WIN_W, WIN_H);
 		mlx.img.data = (int *)mlx_get_data_addr(mlx.img.img_ptr, &mlx.img.bpp, &mlx.img.size_l, &mlx.img.endian);
 		init(&mlx);
 		draw(&mlx);
+		mlx_hook(mlx.win, 17, 0, close_window, &mlx);
 		mlx_key_hook(mlx.win, key_hooks, &mlx);
 		mlx_mouse_hook(mlx.win, mouse_hook, &mlx);
 		mlx_put_image_to_window(mlx.mlx, mlx.win, mlx.img.img_ptr, 0, 0);

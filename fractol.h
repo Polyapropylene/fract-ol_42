@@ -3,6 +3,7 @@
 
 # include "../fract-ol_42/minilibx/mlx.h"
 # include "../fract-ol_42/libft/libft.h"
+# include <math.h>
 # include <stdlib.h>
 
 # define WIN_W 1000
@@ -37,8 +38,17 @@ typedef struct s_colour
 	int	r;
 	int	g;
 	int	b;
-	int	shift;
 } t_colour;
+
+typedef struct s_cmplx
+{
+	double	x;
+	double	y;
+	double	x0;
+	double	y0;
+	double	jr;
+	double	ji;
+} t_cmplx;
 
 typedef struct s_mlx
 {
@@ -49,24 +59,21 @@ typedef struct s_mlx
 	long double	x_center;
 	long double	scale;
 	int			type;
+	t_cmplx		julia;
+	int			colour;
+	int			max_iter;
 } t_mlx;
-
-typedef struct s_cmplx
-{
-	double	x;
-	double	y;
-	double	x0;
-	double	y0;
-} t_cmplx;
 
 int		key_hooks(int keycode, t_mlx *mlx);
 int		mouse_hook(int button, int x, int y, t_mlx *mlx);
-int		iter_mandelbrot(t_cmplx *z);
-int		iter_julia(t_cmplx *z);
-int		decide_colour(int iter);
+int		close_window(t_mlx *mlx);
+int		iter_mandelbrot(t_cmplx *z, t_mlx *mlx);
+int		iter_julia(t_cmplx *z, t_mlx *mlx);
+int		iter_newton(t_cmplx *z, t_mlx *mlx);
+int		decide_colour(int iter, t_mlx *mlx);
 void	draw(t_mlx *mlx);
-void		redraw(t_mlx *mlx);
-void	check_args(t_mlx *mlx, char *argv);
+void	redraw(t_mlx *mlx);
+void	check_args(t_mlx *mlx, char **argv, int argc);
 int		choose_fractal(t_mlx *mlx, t_cmplx *z);
 
 #endif
